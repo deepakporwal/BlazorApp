@@ -1,6 +1,18 @@
+using BlazorApp.Server.Interfaces;
+using BlazorApp.Server.Services;
+using BlazorApp.Shared;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+//Donot forgot to add ConnectionStrings as "DefaultConnection" to the appsetting.json file
+builder.Services.AddDbContext<DatabaseContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+builder.Services.AddTransient<IUser, UserManager>();
 
 // Add services to the container.
 
